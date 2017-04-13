@@ -1,3 +1,3 @@
-/**
- * Created by drutkovskyi on 4/13/17.
- */
+module.exports = {
+  room: 'W13S93'
+};
