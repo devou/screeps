@@ -1,3 +1,3 @@
 module.exports = {
-  room: 'W13S93'
+  room: 'W11S92'
 };
