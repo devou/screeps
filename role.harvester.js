@@ -12,8 +12,8 @@ let roleHarvester = {
             }
         } else if(_.sum(creep.carry) > creep.carry.energy) {
             let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: structure => 
-                    (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) 
+                filter: structure =>
+                    (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE)
                         && structure.store.energy < structure.storeCapacity - 100
             });
             creep.say('MINERALS!!!');
@@ -34,27 +34,30 @@ let roleHarvester = {
                     creep.harvest(source);
                 } else if(creep.carry.energy == 0) {
                     creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
-                }
-                else {
+                } else {
                     let extension = creep.pos.findClosestByPath(
                         FIND_MY_STRUCTURES,
                         {filter: (structure) => (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN ) && structure.energy < structure.energyCapacity}
                     );
-        
+
                     if(extension) {
                         if(creep.transfer(extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                             creep.moveTo(extension, {visualizePathStyle: {stroke: '#ffffff'}});
                         }
                     } else {
                         extension = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                            filter: structure => 
-                                (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE) 
+                            filter: structure =>
+                                (structure.structureType == STRUCTURE_CONTAINER || structure.structureType == STRUCTURE_STORAGE)
                                     && _.sum(structure.store) < structure.storeCapacity - 100
                         });
                         if(extension) {
                             if(creep.transfer(extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                                 creep.moveTo(extension, {visualizePathStyle: {stroke: '#ffffff'}});
                             }
+                        }else {
+                            creep.memory.building = true;
+                            creep.say("I'm builder");
+                            roleBuilder.run(creep);
                         }
 
                     }
@@ -63,7 +66,7 @@ let roleHarvester = {
                 creep.memory.building = true;
                 creep.say("I'm builder");
                 roleBuilder.run(creep);
-            }        
+            }
         }
 	}
 };

@@ -1,4 +1,6 @@
-var utils = {
+let constants = require('constants');
+
+let utils = {
 
     /**
      * @param {!String} role
@@ -6,14 +8,15 @@ var utils = {
     **/
 	createCreep: function(role, budget) {
 	    let creepBody = [WORK,CARRY,MOVE];
-	    let avres = budget ? Game.rooms.W13S93.energyAvailable - 200 : Game.rooms.W13S93.energyCapacityAvailable - 200;
-	    if (!budget && Game.rooms.W13S93.energyAvailable < Game.rooms.W13S93.energyCapacityAvailable) {
+	    let room = Game.rooms[constants.room];
+	    let avres = budget ? room.energyAvailable - 200 : room.energyCapacityAvailable - 200;
+	    if (!budget && room.energyAvailable < room.energyCapacityAvailable) {
 	        return;
 	    }
 	    let carrys = Math.min(avres/250, 4);
 	    let weight = 3;
 	    let max = 18;
-	    if (role == 'upgrader') {
+	    if (role === 'upgrader') {
 	        max = 50;
 	    }
         for (carrys; carrys > 1; carrys--){
