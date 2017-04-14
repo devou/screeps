@@ -62,8 +62,8 @@ Creep.prototype.withdrawFromSourceContainers = function() {
         }
     );
     if (container) {
-        if (this.withdraw(extension, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-            this.moveTo(extension, {visualizePathStyle: {stroke: '#e522ff'}});
+        if (this.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            this.moveTo(container, {visualizePathStyle: {stroke: '#e522ff'}});
         }
         return true;
     }
@@ -80,8 +80,8 @@ Creep.prototype.withdrawFromContainers = function() {
         }
     );
     if (container) {
-        if (this.withdraw(extension, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-            this.moveTo(extension, {visualizePathStyle: {stroke: '#7819ff'}});
+        if (this.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            this.moveTo(container, {visualizePathStyle: {stroke: '#7819ff'}});
         }
         return true;
     }
