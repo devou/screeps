@@ -73,6 +73,7 @@ Creep.prototype.withdrawFromSourceContainers = function() {
         }
         return true;
     }
+    this.memory.work = true;
     return false;
 };
 
@@ -99,6 +100,7 @@ Creep.prototype.withdrawFromContainers = function() {
         }
         return true;
     }
+    this.memory.work = true;
     return false;
 };
 
