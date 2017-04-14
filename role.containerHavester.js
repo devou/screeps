@@ -51,7 +51,7 @@ let roleContainerHarvester = {
      * @param {Creep} creep 
      * **/
     run: function(creep) {
-        let container = getSourceContainers(creep.room)[creep.memory.index];
+        let container = getSourceContainers(creep.room)[creep.memory.containerIndex];
         if (!creep.pos.isEqualTo(container)) {
             creep.moveTo(container);
         } else {
@@ -83,7 +83,7 @@ let roleContainerHarvester = {
         let newName = Game.spawns['Spawn1'].createCreep(
             body, undefined, {
                 role: 'containerHarvester',
-                index: containerIndex
+                containerIndex: containerIndex
             });
         console.log(
             `Spawning new containerHarvester[${containerIndex}]: ${newName}`);
