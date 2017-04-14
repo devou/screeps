@@ -4,13 +4,13 @@ let roleUpgrader = require('role.upgrader');
 let roleBuilder = require('role.builder');
 let roleCarrier = require('role.carrier');
 
-Creep.prototype.isHarvester = () => this.memory.role === 'harvester';
-Creep.prototype.isBuilder = () => this.memory.role === 'builder';
-Creep.prototype.isUpgrader = () => this.memory.role === 'upgrader';
-Creep.prototype.isCarrier = () => this.memory.role === 'carrier';
-Creep.prototype.isContainerHarvester = () => this.memory.role === 'containerHarvester';
+Creep.prototype.isHarvester = function() {return this.memory.role === 'harvester'};
+Creep.prototype.isBuilder = function() {return this.memory.role === 'builder'};
+Creep.prototype.isUpgrader = function() {return this.memory.role === 'upgrader'};
+Creep.prototype.isCarrier = function() {return this.memory.role === 'carrier'};
+Creep.prototype.isContainerHarvester = function() {return this.memory.role === 'containerHarvester'};
 
-Creep.prototype.run = () => {
+Creep.prototype.run = function() {
     if (this.isContainerHarvester()) {
         roleContainerHarvester.run(this);
     } else if (this.isHarvester()) {
@@ -25,7 +25,7 @@ Creep.prototype.run = () => {
 };
 
 
-Creep.prototype.updateWorkState = () => {
+Creep.prototype.updateWorkState = function() {
     if (this.memory.work && this.carry.energy === 0) {
         this.memory.work = false;
         this.say('♲ withdraw');
@@ -38,7 +38,7 @@ Creep.prototype.updateWorkState = () => {
 };
 
 
-Creep.prototype.harvestClosestSource = () => {
+Creep.prototype.harvestClosestSource = function() {
     let source = this.pos.findClosestByPath(FIND_SOURCES, {
         filter: source => source.energy > 0
     });
@@ -55,7 +55,7 @@ Creep.prototype.harvestClosestSource = () => {
 };
 
 
-Creep.prototype.withdrawFromSourceContainers = () => {
+Creep.prototype.withdrawFromSourceContainers = function() {
     let container = this.pos.findClosestByPath(
         this.room.memory.sourceContainers, {
             filter: structure => structure.store.energy > 0
@@ -71,7 +71,7 @@ Creep.prototype.withdrawFromSourceContainers = () => {
 };
 
 
-Creep.prototype.withdrawFromContainers = () => {
+Creep.prototype.withdrawFromContainers = function() {
     let container = this.pos.findClosestByPath(
         FIND_STRUCTURES, {
             filter: structure =>
@@ -88,7 +88,7 @@ Creep.prototype.withdrawFromContainers = () => {
     return false;
 };
 
-Creep.prototype.builderWork = () => {
+Creep.prototype.builderWork = function() {
     let target = this.pos.findClosestByPath(
         FIND_CONSTRUCTION_SITES, {ignoreCreeps: true});
     if (target) {
@@ -100,7 +100,7 @@ Creep.prototype.builderWork = () => {
     return false;
 };
 
-Creep.prototype.upgraderWork = () => {
+Creep.prototype.upgraderWork = function() {
     let controller = this.room.controller;
     if (this.upgradeController(controller) === ERR_NOT_IN_RANGE) {
         this.moveTo(controller, {visualizePathStyle: {stroke: '#51ff48'}});
@@ -109,7 +109,7 @@ Creep.prototype.upgraderWork = () => {
     return false;
 };
 
-Creep.prototype.carrierWork = () => {
+Creep.prototype.carrierWork = function() {
     let whereToPutEnergy = this.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: structure =>
             structure.structureType === STRUCTURE_EXTENSION &&
@@ -140,7 +140,7 @@ Creep.prototype.carrierWork = () => {
     return false;
 };
 
-Creep.prototype.handleDroppedResources = () => {
+Creep.prototype.handleDroppedResources = function() {
     let droppedResource = this.pos.findClosestByPath(
         FIND_DROPPED_RESOURCES, {filter: res => res.amount >= 20});
     if (droppedResource && _.sum(this.carry) < this.carryCapacity) {
