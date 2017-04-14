@@ -1,3 +1,3 @@
 module.exports = {
-  room: 'W13S93'
+    room: Game.rooms['W11S92'],
 };
