@@ -19,7 +19,7 @@ let roleCarrier = {
 	    let creepBody = [];
 	    let room = con.room;
 	    let avres = budget ? room.energyAvailable : room.energyCapacityAvailable;
-        let count = Math.min(avres/100, 8);
+        let count = Math.min(avres/100, 6);
 
         for (count; count > 0; count--){
 	        creepBody.push(CARRY);
