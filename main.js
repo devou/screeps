@@ -41,10 +41,14 @@ module.exports.loop = function () {
         }
     }
 
-    if(carriersCount < 1) {
-        if (!roleCarrier.create()) {
-            roleCarrier.create(true);
+    if(carriersCount < 2) {
+        let carrier = _.filter(
+            Game.creeps, c => c.isCarrier() && c.ticksToLive < 30);
+        if (carrier) {
+            roleCarrier.create();
         }
+    } else if(carriersCount < 1) {
+        roleCarrier.create(true);
     }
 
     if(Game.spawns['Spawn1'].spawning) {
