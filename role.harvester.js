@@ -5,7 +5,7 @@ let roleHarvester = {
         creep.updateWorkState();
 
         if (creep.memory.work) {
-            creep.carrierWork() || creep.builderWork();
+            creep.carrierWork() || creep.builderWork() || creep.upgraderWork();
         } else {
             creep.harvestClosestSource();
         }
