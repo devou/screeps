@@ -44,7 +44,7 @@ module.exports.loop = function () {
     if(carriersCount < 2) {
         let carrier = _.filter(
             Game.creeps, c => c.isCarrier() && c.ticksToLive < 30);
-        if (carrier) {
+        if (carrier.length > 0) {
             roleCarrier.create();
         }
     } else if(carriersCount < 1) {

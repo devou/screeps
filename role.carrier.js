@@ -29,7 +29,7 @@ let roleCarrier = {
 	    let newName = Game.spawns['Spawn1'].createCreep(
 	        creepBody, undefined, {role: 'carrier'});
         if (_.isString(newName)) {
-            console.log(`Spawning new ${role}: ${newName}`);
+            console.log(`Spawning new ${budget?'budget ':' '}carrier: ${newName}`);
         }
 	},
 };
