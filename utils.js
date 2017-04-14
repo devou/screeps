@@ -6,8 +6,8 @@ let utils = {
      * @param {!String} role
      * @param {Boolean} budget
     **/
-	createCreep: function(role, budget) {
-	    let creepBody = [WORK,CARRY,MOVE];
+	createCreep: function(role, budget=false) {
+	    let creepBody = [WORK, CARRY, MOVE];
 	    let room = constants.room;
 	    let avres = budget ? room.energyAvailable - 200 : room.energyCapacityAvailable - 200;
 	    if (!budget && room.energyAvailable < room.energyCapacityAvailable) {
@@ -20,7 +20,7 @@ let utils = {
 	        max = 50;
 	    }
         for (carrys; carrys > 1; carrys--){
-            avres -= 50
+            avres -= 50;
             weight += 1;
 	        creepBody.push(CARRY);
         }
@@ -41,7 +41,6 @@ let utils = {
 	    let newName = Game.spawns['Spawn1'].createCreep(creepBody, undefined, {role: role});
         console.log(`Spawning new ${role}: ${newName}`);
 	}
-
 };
 
 module.exports = utils;

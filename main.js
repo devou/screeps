@@ -1,7 +1,8 @@
-let roleHarvester = require('role.harvester');
-let roleUpgrader = require('role.upgrader');
+require('deps');
 let roleBuilder = require('role.builder');
-let roleTowerFiller = require('role.towerfiller');
+let roleContainerHarvester = require('role.containerHavester');
+let roleCarrier = require('role.carrier');
+let roleUpgrader = require('role.upgrader');
 let utils = require('utils');
 let tower = require('tower');
 
@@ -13,24 +14,36 @@ module.exports.loop = function () {
         }
     }
 
-    let creeps = _.groupBy(Game.creeps, 'memory.role')
-    let harvestersCount = creeps['harvester'] && creeps['harvester'].length || 0;
-    let upgraidersCount = creeps['upgrader'] && creeps['upgrader'].length || 0;
-    let buildersCount = creeps['builder'] && creeps['builder'].length || 0;
-    let towerFillersCount = creeps['towerFiller'] && creeps['towerFiller'].length || 0;
+    let creepCounts = _.mapValues(
+        _.groupBy(Game.creeps, 'memory.role'),
+        (v) => v.length
+    );
+    let harvestersCount = creepCounts.harvester || 0;
+    let upgradersCount = creepCounts.upgrader || 0;
+    let buildersCount = creepCounts.builder || 0;
+    let carriersCount = creepCounts.carrier || 0;
     Memory.harvesterCount = harvestersCount;
 
-    if(harvestersCount === 0) {
-        utils.createCreep('harvester', true);
+    // creeps creating
+    if(upgradersCount < 2) {
+        roleUpgrader.create();
+    }else if(buildersCount < 1) {
+        roleBuilder.create();
+    }
+
+    if (roleContainerHarvester.isContainerHarvesterAvailable()) {
+        roleContainerHarvester.create();
     } else {
-        if(harvestersCount < 1) {
+        if(harvestersCount === 0) {
+            utils.createCreep('harvester', true);
+        } else if(harvestersCount < 2) {
             utils.createCreep('harvester');
-        }else if(upgraidersCount < 2) {
-            utils.createCreep('upgrader');
-        }else if(buildersCount < 1) {
-            utils.createCreep('builder');
-        }else if(towerFillersCount < 1) {
-            utils.createCreep('towerFiller');
+        }
+    }
+
+    if(carriersCount < 1) {
+        if (!roleCarrier.create()) {
+            roleCarrier.create(true);
         }
     }
 
@@ -47,18 +60,6 @@ module.exports.loop = function () {
 
     for(let name in Game.creeps) {
         let creep = Game.creeps[name];
-        if(creep.memory.role === 'harvester') {
-            roleHarvester.run(creep);
-        }
-        if(creep.memory.role === 'upgrader') {
-            roleUpgrader.run(creep);
-            // roleBuilder.run(creep);
-        }
-        if(creep.memory.role === 'builder') {
-            roleBuilder.run(creep);
-        }
-        if(creep.memory.role === 'towerFiller') {
-            roleTowerFiller.run(creep);
-        }
+        creep.run();
     }
 }
