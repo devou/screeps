@@ -4,11 +4,13 @@ let roleUpgrader = require('role.upgrader');
 let roleBuilder = require('role.builder');
 let roleCarrier = require('role.carrier');
 
+
 Creep.prototype.isHarvester = function() {return this.memory.role === 'harvester'};
 Creep.prototype.isBuilder = function() {return this.memory.role === 'builder'};
 Creep.prototype.isUpgrader = function() {return this.memory.role === 'upgrader'};
 Creep.prototype.isCarrier = function() {return this.memory.role === 'carrier'};
 Creep.prototype.isContainerHarvester = function() {return this.memory.role === 'containerHarvester'};
+
 
 Creep.prototype.run = function() {
     if (this.isContainerHarvester()) {
@@ -88,6 +90,7 @@ Creep.prototype.withdrawFromContainers = function() {
     return false;
 };
 
+
 Creep.prototype.builderWork = function() {
     let target = this.pos.findClosestByPath(
         FIND_CONSTRUCTION_SITES, {ignoreCreeps: true});
@@ -100,6 +103,7 @@ Creep.prototype.builderWork = function() {
     return false;
 };
 
+
 Creep.prototype.upgraderWork = function() {
     let controller = this.room.controller;
     if (this.upgradeController(controller) === ERR_NOT_IN_RANGE) {
@@ -108,6 +112,7 @@ Creep.prototype.upgraderWork = function() {
     }
     return false;
 };
+
 
 Creep.prototype.carrierWork = function() {
     let whereToPutEnergy = this.pos.findClosestByPath(FIND_STRUCTURES, {
@@ -143,6 +148,7 @@ Creep.prototype.carrierWork = function() {
     }
     return false;
 };
+
 
 Creep.prototype.handleDroppedResources = function() {
     let droppedResource = this.pos.findClosestByPath(
