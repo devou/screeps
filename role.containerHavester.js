@@ -10,7 +10,7 @@ function chooseContainerIndex(room) {
         creep.memory.role === 'containerHarvester'
         && creep.ticksToLive > 40
     ).map((creep) => creep.memory.containerIndex);
-    let indexesCount = getSourceContainers(room, true).length;
+    let indexesCount = utils.getSourceContainers(room, true).length;
     for (let i = 0; i < indexesCount; i++) {
         if (existingCreepIndexes.indexOf(i) === -1) {
             return i;
