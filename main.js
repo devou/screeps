@@ -25,7 +25,7 @@ module.exports.loop = function () {
     } else {
         if(harvestersCount < 1) {
             utils.createCreep('harvester');
-        }else if(upgraidersCount < 1) {
+        }else if(upgraidersCount < 2) {
             utils.createCreep('upgrader');
         }else if(buildersCount < 1) {
             utils.createCreep('builder');

@@ -8,7 +8,7 @@ let utils = {
     **/
 	createCreep: function(role, budget) {
 	    let creepBody = [WORK,CARRY,MOVE];
-	    let room = Game.rooms[constants.room];
+	    let room = constants.room;
 	    let avres = budget ? room.energyAvailable - 200 : room.energyCapacityAvailable - 200;
 	    if (!budget && room.energyAvailable < room.energyCapacityAvailable) {
 	        return;
