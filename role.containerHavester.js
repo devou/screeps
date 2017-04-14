@@ -79,7 +79,7 @@ let roleContainerHarvester = {
             return false;
         }
         moveCount = Math.min(5, availableEnergy / 50 << 0);
-        body.concat(Array(moveCount).fill(MOVE));
+        body = body.concat(Array(moveCount).fill(MOVE));
         let newName = Game.spawns['Spawn1'].createCreep(
             body, undefined, {
                 role: 'containerHarvester',
