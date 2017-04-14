@@ -5,7 +5,7 @@ let con = require('constants');
  * @return int: index of container whose harvester is dead or will die soon
  */
 function chooseContainerIndex(room) {
-    let existingCreepIndexes = Game.creeps.filter((creep) =>
+    let existingCreepIndexes = _filter(Game.creeps, (creep) =>
         creep.memory.role === 'containerHarvester'
             && creep.ticksToLive > 40
     ).map((creep) => creep.memory.containerIndex);
