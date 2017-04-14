@@ -5,7 +5,7 @@ let con = require('constants');
  * @return int: index of container whose harvester is dead or will die soon
  */
 function chooseContainerIndex(room) {
-    let existingCreepIndexes = _filter(Game.creeps, (creep) =>
+    let existingCreepIndexes = _.filter(Game.creeps, (creep) =>
         creep.memory.role === 'containerHarvester'
             && creep.ticksToLive > 40
     ).map((creep) => creep.memory.containerIndex);
@@ -72,11 +72,11 @@ let roleContainerHarvester = {
         let moveCount;
 
         if (containerIndex === -1) {
-            return False;
+            return false;
         }
         if (availableEnergy < 50) {
             console.log('Not Enough energry for containerHarvester');
-            return False;
+            return false;
         }
         moveCount = Math.min(5, availableEnergy/50<<0);
         body.concat(Array(moveCount).fill(MOVE));
