@@ -3,6 +3,7 @@ let roleHarvester = require('role.harvester');
 let roleUpgrader = require('role.upgrader');
 let roleBuilder = require('role.builder');
 let roleCarrier = require('role.carrier');
+let utils = require('utils');
 
 
 Creep.prototype.isHarvester = function() {return this.memory.role === 'harvester'};
@@ -59,13 +60,11 @@ Creep.prototype.harvestClosestSource = function() {
 
 Creep.prototype.withdrawFromSourceContainers = function() {
     let container = this.pos.findClosestByPath(
-        this.room.memory.sourceContainers, {
-            filter: structure => structure.store.energy > 200
-        }
+        utils.getSourceContainers(this.room),
+        {filter: structure => structure.store.energy > 200}
     ) || this.pos.findClosestByPath(
-        this.room.memory.sourceContainers, {
-            filter: structure => structure.store.energy > 0
-        }
+        utils.getSourceContainers(this.room),
+        {filter: structure => structure.store.energy > 0}
     );
     if (container) {
         if (this.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
@@ -82,7 +81,7 @@ Creep.prototype.withdrawFromContainers = function() {
     let container = this.pos.findClosestByPath(
         FIND_STRUCTURES, {
             filter: structure => {
-                if (this.room.memory.sourceContainers.indexOf(structure) !== -1
+                if (this.room.memory.sourceContainerIds.indexOf(structure.id) !== -1
                     && structure.store.energy < 300) {
                     return false;
                 }
@@ -144,7 +143,7 @@ Creep.prototype.carrierWork = function() {
         }) || this.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: structure =>
             structure.structureType === STRUCTURE_CONTAINER &&
-            this.room.memory.sourceContainers.indexOf(structure) === -1 &&
+            this.room.memory.sourceContainerIds.indexOf(structure.id) === -1 &&
             _.sum(structure.store) < structure.storeCapacity - this.carry.energy
         }) || this.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: structure =>

@@ -1,4 +1,5 @@
 let con = require('constants');
+let utils = require('utils');
 
 /**
  * @param {Room} room
@@ -19,31 +20,6 @@ function chooseContainerIndex(room) {
 }
 
 
-/**
- * Find containers related to sources and store in memory
- * @param {Room} room
- * @param {boolean} update: force memory update
- * @return Array<StructureContainer>
- */
-function getSourceContainers(room, update = false) {
-    let containers = room.memory.sourceContainers;
-    if (!containers || update) {
-        containers = room.find(
-            FIND_STRUCTURES, {
-                filter: structure => {
-                    if (structure.structureType !== STRUCTURE_CONTAINER) {
-                        return false;
-                    }
-                    return structure.pos.findInRange(FIND_SOURCES, 1).length >= 1;
-                }
-            }
-        );
-        room.memory.sourceContainers = containers;
-    }
-    return containers;
-}
-
-
 let roleContainerHarvester = {
 
     /** ContainerHarvester logic.
@@ -51,7 +27,8 @@ let roleContainerHarvester = {
      * @param {Creep} creep
      * **/
     run: function (creep) {
-        let container = getSourceContainers(creep.room)[creep.memory.containerIndex];
+        let container = utils.getSourceContainers(
+            creep.room)[creep.memory.containerIndex];
         if (!creep.pos.isEqualTo(container)) {
             creep.moveTo(container);
         } else {
@@ -97,7 +74,7 @@ let roleContainerHarvester = {
      * @return boolean: true if room is available for containerHarvester
      */
     isContainerHarvesterAvailable: function () {
-        return getSourceContainers(con.room).length > 0;
+        return utils.getSourceContainers(con.room).length > 0;
     }
 };
 
