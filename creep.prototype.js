@@ -111,8 +111,7 @@ Creep.prototype.withdrawFromContainers = function() {
 
 
 Creep.prototype.builderWork = function() {
-    let target = this.pos.findClosestByPath(
-        FIND_CONSTRUCTION_SITES, {ignoreCreeps: true});
+    let target = this.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
     if (target) {
         if (this.build(target) === ERR_NOT_IN_RANGE) {
             this.moveTo(target, {visualizePathStyle: {stroke: '#582c15'}});
@@ -159,7 +158,6 @@ Creep.prototype.carrierWork = function() {
     if (whereToPutEnergy) {
         if (this.transfer(whereToPutEnergy, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
             this.moveTo(whereToPutEnergy, {
-                ignoreCreeps: true,
                 visualizePathStyle: {stroke: '#ff464d'}
             })
         }
