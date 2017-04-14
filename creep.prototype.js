@@ -60,6 +60,10 @@ Creep.prototype.harvestClosestSource = function() {
 Creep.prototype.withdrawFromSourceContainers = function() {
     let container = this.pos.findClosestByPath(
         this.room.memory.sourceContainers, {
+            filter: structure => structure.store.energy > 400
+        }
+    ) || this.pos.findClosestByPath(
+        this.room.memory.sourceContainers, {
             filter: structure => structure.store.energy > 0
         }
     );
