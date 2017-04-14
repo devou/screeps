@@ -27,7 +27,7 @@ module.exports.loop = function () {
     // creeps creating
     if(upgradersCount < 2) {
         roleUpgrader.create();
-    }else if(buildersCount < 1) {
+    }else if(buildersCount < 2) {
         roleBuilder.create();
     }
 
