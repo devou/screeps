@@ -66,6 +66,10 @@ let roleContainerHarvester = {
      * Binded to appropriate container.
      */
     create: function () {
+        if (Game.spawns['Spawn1'].spawning) {
+            return false;
+        }
+
         let body = Array(5).fill(WORK);
         let availableEnergy = con.room.energyAvailable - 500;
         let containerIndex = chooseContainerIndex(con.room);

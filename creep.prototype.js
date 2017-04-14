@@ -76,9 +76,17 @@ Creep.prototype.withdrawFromSourceContainers = function() {
 Creep.prototype.withdrawFromContainers = function() {
     let container = this.pos.findClosestByPath(
         FIND_STRUCTURES, {
-            filter: structure =>
-            (structure.structureType === STRUCTURE_CONTAINER)
-            && structure.store.energy > 0
+            filter: structure => {
+                if (this.room.memory.sourceContainers.indexOf(structure) !== -1
+                    && structure.store.energy < 300) {
+                    return false;
+                }
+                if (structure.structureType === STRUCTURE_CONTAINER
+                    && structure.store.energy > 0) {
+                    return true;
+                }
+
+            }
         }
     );
     if (container) {
