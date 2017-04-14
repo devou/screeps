@@ -116,6 +116,10 @@ Creep.prototype.carrierWork = function() {
             structure.energy < structure.energyCapacity
         }) || this.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: structure =>
+            structure.structureType === STRUCTURE_SPAWN &&
+            structure.energy < structure.energyCapacity
+        }) || this.pos.findClosestByPath(FIND_STRUCTURES, {
+            filter: structure =>
             structure.structureType === STRUCTURE_TOWER &&
             structure.energy < structure.energyCapacity - this.carry.energy
         }) || this.pos.findClosestByPath(FIND_STRUCTURES, {
