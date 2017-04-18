@@ -10,7 +10,7 @@ let utils = {
 	createCreep: function(role, room=con.room,  budget=false) {
         let spawns = _.filter(
             Game.spawns, sp => sp.room == room && !sp.spawning);
-        if (!spawns) return false;
+        if (spawns.length === 0) return false;
         let spawn = spawns[0];
         let isDefaultRoom = false;
         let parts = 8;

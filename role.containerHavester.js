@@ -46,7 +46,7 @@ let roleContainerHarvester = {
     create: function (room=con.room, budget=false) {
         let spawns = _.filter(
             Game.spawns, sp => sp.room == room && !sp.spawning);
-        if (!spawns) return false;
+        if (spawns.length <= 0) return false;
         let spawn = spawns[0];
 
         let work = budget ? (room.energyCapacityAvailable - 50)/100>>0 : 5;
