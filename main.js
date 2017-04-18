@@ -13,9 +13,45 @@ module.exports.loop = function () {
             console.log('Clearing non-existing creep memory:', name);
         }
     }
+    try {
+        let test = Game.creeps.test2;
+        if (test) {
+            let ss = Game.rooms.W11S91.controller;
+            test.updateWorkState();
+            if (test.memory.work) {
+                if (test.upgradeController(ss) == ERR_NOT_IN_RANGE) {
+                    test.moveTo(ss)
+                }                
+            } else {
+                test.harvestClosestSource();
+            }
+
+        } else {
+             Game.spawns.Spawn1.createCreep([MOVE, CARRY, WORK, MOVE, CARRY, WORK], 'test2');
+        }
+        let tess = _.filter(Game.creeps, x=>x.memory.room == 'W11S91');
+        if (tess.length < 2 || (_.filter(tess, x => x.ticksToLive < 100).length > 0 && tess.length == 2)) {
+            Game.spawns.Spawn1.createCreep([
+                MOVE, CARRY, WORK, MOVE, CARRY, WORK, MOVE, CARRY, WORK, 
+                MOVE, CARRY, WORK, MOVE, CARRY, WORK, MOVE, CARRY, WORK, 
+                MOVE, CARRY, WORK, MOVE, CARRY, WORK], 
+                undefined, {room: 'W11S91'});
+        }
+        for (let tes of tess) {
+            if (tes.room.name !== 'W11S91') {
+                tes.moveTo(Game.rooms.W11S91.controller);
+            } else { 
+                tes.memory.role = 'builder'
+            }
+        }
+    } 
+    catch(err){   
+        console.log(err);
+        Game.notify(err);     
+    }
 
     let creepCounts = _.mapValues(
-        _.groupBy(Game.creeps, 'memory.role'),
+        _.groupBy(_.filter(Game.creeps, x=>x.room.name!='W11S91'), 'memory.role'),
         (v) => v.length
     );
     let harvestersCount = creepCounts.harvester || 0;
