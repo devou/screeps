@@ -175,7 +175,7 @@ Creep.prototype.carrierWork = function() {
 Creep.prototype.handleDroppedResources = function() {
     let droppedResource = this.pos.findClosestByPath(
         FIND_DROPPED_RESOURCES, {filter: res => res.amount >= 20});
-    if (droppedResource && _.sum(this.carry) < this.carryCapacity) {
+    if (droppedResource && !this.memory.work) {
         this.say('free energy');
         if (this.pickup(droppedResource) === ERR_NOT_IN_RANGE) {
             this.moveTo(droppedResource,
