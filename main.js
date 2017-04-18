@@ -80,12 +80,10 @@ module.exports.loop = function () {
         }
     }
 
-    if(carriersCount < 2) {
-        let carrier = _.filter(
-            Game.creeps, c => c.isCarrier() && c.ticksToLive < 30);
-        if (carrier.length > 0) {
-            roleCarrier.create();
-        }
+    let oldCarrier = _.filter(
+        Game.creeps, c => c.isCarrier() && c.ticksToLive < 30);
+    if(carriersCount < 3 && oldCarrier.length > 0 || carriersCount < 2) {
+        roleCarrier.create();
     } else if(carriersCount < 1) {
         roleCarrier.create(true);
     }
