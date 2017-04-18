@@ -66,6 +66,7 @@ module.exports.loop = function () {
     if(upgradersCount < 2) {
         roleUpgrader.create();
     }else if(buildersCount < 2) {
+        console.log('builder creation');
         roleBuilder.create();
     }
 
