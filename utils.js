@@ -7,7 +7,7 @@ let utils = {
      * @param {Room} room
      * @param {Boolean} budget
     **/
-	createCreep: function(role, room=con.room) {
+	createCreep: function(role, room=con.room,  budget=false) {
         let spawns = _.filter(
             Game.spawns, sp => sp.room == room && !sp.spawning);
         if (!spawns) return false;
