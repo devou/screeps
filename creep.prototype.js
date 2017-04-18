@@ -93,7 +93,8 @@ Creep.prototype.withdrawFromContainers = function() {
                     && structure.store.energy < 300) {
                     return false;
                 }
-                if (structure.structureType === STRUCTURE_CONTAINER
+                if ((structure.structureType === STRUCTURE_CONTAINER
+                        || structure.structureType === STRUCTURE_STORAGE)
                     && structure.store.energy > 0) {
                     return true;
                 }
