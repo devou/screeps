@@ -7,7 +7,7 @@ let roleHarvester = {
         if (creep.memory.work) {
             creep.carrierWork() || creep.builderWork() || creep.upgraderWork();
         } else {
-            creep.harvestClosestSource();
+            creep.harvestClosestSource() || creep.withdrawFromSourceContainers();
         }
 	}
 };

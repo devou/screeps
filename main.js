@@ -41,9 +41,11 @@ module.exports.loop = function () {
             if (tes.room.name !== 'W11S91') {
                 tes.moveTo(Game.rooms.W11S91.controller);
             } else { 
-                tes.memory.role = 'builder'
+                tes.memory.role = 'carrier';
             }
         }
+
+        roleContainerHarvester.create(Game.rooms.W11S91);
     } 
     catch(err){   
         console.log(err);
