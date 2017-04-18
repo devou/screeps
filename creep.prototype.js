@@ -14,16 +14,20 @@ Creep.prototype.isContainerHarvester = function() {return this.memory.role === '
 
 
 Creep.prototype.run = function() {
-    if (this.isContainerHarvester()) {
-        roleContainerHarvester.run(this);
-    } else if (this.isHarvester()) {
-        roleHarvester.run(this);
-    } else if (this.isBuilder()) {
-        roleBuilder.run(this);
-    } else if (this.isUpgrader()) {
-        roleUpgrader.run(this);
-    } else if (this.isCarrier()) {
-        roleCarrier.run(this);
+    if (creep.memory.room && creep.memory.room != creep.room) {
+        creep.moveTo(creep.memory.room.controller);
+    } else {
+        if (this.isContainerHarvester()) {
+            roleContainerHarvester.run(this);
+        } else if (this.isHarvester()) {
+            roleHarvester.run(this);
+        } else if (this.isBuilder()) {
+            roleBuilder.run(this);
+        } else if (this.isUpgrader()) {
+            roleUpgrader.run(this);
+        } else if (this.isCarrier()) {
+            roleCarrier.run(this);
+        }
     }
 };
 
@@ -31,11 +35,11 @@ Creep.prototype.run = function() {
 Creep.prototype.updateWorkState = function() {
     if (this.memory.work && this.carry.energy === 0) {
         this.memory.work = false;
-        this.say('♲ withdraw');
+        this.say('! withdraw');
     }
     if (!this.memory.work && this.carry.energy === this.carryCapacity) {
         this.memory.work = true;
-        this.say('work');
+        this.say('@ work');
     }
 
 };
