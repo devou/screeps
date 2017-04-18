@@ -42,7 +42,7 @@ Room.prototype.handleCreeps = function() {
 
     let oldCarrier = _.filter(
         Game.creeps,
-        c => c.isCarrier() && c.memory.room == this && c.ticksToLive < 30);
+        c => c.isCarrier() && c.memory.room == this.name && c.ticksToLive < 30);
     if(carriersCount < 3 && oldCarrier.length > 0 || carriersCount < 2) {
         roleCarrier.create(this);
     } else if(carriersCount < 1) {

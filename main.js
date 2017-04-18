@@ -7,22 +7,25 @@ module.exports.loop = function () {
             console.log('Clearing non-existing creep memory:', name);
         }
     }
-    for (let room of Game.rooms) {
+    for (let roomId in Game.rooms) {
+        let room = Game.rooms[roomId]
         room.handleCreeps();
     }
 
-    for (let spawn of Game.spawns) {
+    for (let spawnId in Game.spawns) {
+        let spawn = Game.spawns[spawnId]
         if (spawn.spawning) {
             let spawningCreep = Game.creeps[spawn.spawning.name];
             spawn.room.visual.text(
-                '#️' + spawningCreep.memory.role,
+                '#' + spawningCreep.memory.role,
                 spawn.pos.x + 1,
                 spawn.pos.y,
                 {align: 'left', opacity: 0.8});
         }
     }
 
-    for(let creep of Game.creeps) {
+    for(let creepId in Game.creeps) {
+        let creep = Game.creeps[creepId]
         creep.run();
     }
 }

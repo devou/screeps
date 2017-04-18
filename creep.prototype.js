@@ -14,8 +14,8 @@ Creep.prototype.isContainerHarvester = function() {return this.memory.role === '
 
 
 Creep.prototype.run = function() {
-    if (creep.memory.room && creep.memory.room != creep.room) {
-        creep.moveTo(creep.memory.room.controller);
+    if (this.memory.room && this.memory.room != this.room.name) {
+        this.moveTo(Game.rooms[this.memory.room].controller);
     } else {
         if (this.isContainerHarvester()) {
             roleContainerHarvester.run(this);
