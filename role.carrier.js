@@ -15,21 +15,27 @@ let roleCarrier = {
         }
 	},
 
-	create: function(budget=false) {
+	create: function(room=con.room, budget=false) {
+        let spawns = _.filter(
+            Game.spawns, sp => sp.room == room && !sp.spawning);
+        if (spawns.length <= 0) return false;
+        let spawn = spawns[0];
 	    let creepBody = [];
-	    let room = con.room;
 	    let avres = budget ? room.energyAvailable : room.energyCapacityAvailable;
-        let count = Math.min(avres/100, 6);
+        let count = Math.min(avres/150>>0, 4);
+        console.log(room.name, count)
 
         for (count; count > 0; count--){
+	        creepBody.push(CARRY);
 	        creepBody.push(CARRY);
 	        creepBody.push(MOVE);
         }
 
-	    let newName = Game.spawns['Spawn1'].createCreep(
-	        creepBody, undefined, {role: 'carrier'});
+	    let newName = spawn.createCreep(
+	        creepBody, undefined, {role: 'carrier', room: room.name});
         if (_.isString(newName)) {
-            console.log(`Spawning new ${budget?'budget ':' '}carrier: ${newName}`);
+            console.log(`Spawning new ${budget?'budget ':' '}
+                carrier: ${newName} at ${room.name}`);
         }
 	},
 };

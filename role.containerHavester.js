@@ -8,6 +8,7 @@ let utils = require('utils');
 function chooseContainerIndex(room) {
     let existingCreepIndexes = _.filter(Game.creeps, (creep) =>
         creep.memory.role === 'containerHarvester'
+        && creep.memory.room === room.name
         && creep.ticksToLive > 40
     ).map((creep) => creep.memory.containerIndex);
     let indexesCount = utils.getSourceContainers(room, true).length;
@@ -42,14 +43,17 @@ let roleContainerHarvester = {
      * This creep designed to fully harvest full source by itself.
      * Binded to appropriate container.
      */
-    create: function () {
-        if (Game.spawns['Spawn1'].spawning) {
-            return false;
-        }
+    create: function (room=con.room, budget=false) {
+        let spawns = _.filter(
+            Game.spawns, sp => sp.room == room && !sp.spawning);
+        if (spawns.length <= 0) return false;
+        let spawn = spawns[0];
 
-        let body = Array(5).fill(WORK);
-        let availableEnergy = con.room.energyAvailable - 500;
-        let containerIndex = chooseContainerIndex(con.room);
+        let work = budget ? (room.energyCapacityAvailable - 50)/100>>0 : 5;
+        if (work < 2) {return false;}
+        let body = Array(work).fill(WORK);
+        let availableEnergy = room.energyAvailable - budget?200:500;
+        let containerIndex = chooseContainerIndex(room);
         let moveCount;
 
         if (containerIndex === -1) {
@@ -61,20 +65,22 @@ let roleContainerHarvester = {
         }
         moveCount = Math.min(2, availableEnergy / 50 << 0);
         body = body.concat(Array(moveCount).fill(MOVE));
-        let newName = Game.spawns['Spawn1'].createCreep(
+        let newName = spawn.createCreep(
             body, undefined, {
                 role: 'containerHarvester',
-                containerIndex: containerIndex
+                containerIndex: containerIndex,
+                room: room.name
             });
         console.log(
-            `Spawning new containerHarvester[${containerIndex}]: ${newName}`);
+            `Spawning new containerHarvester[${containerIndex}]: ${newName}
+             at ${room} room.`);
     },
 
     /**
      * @return boolean: true if room is available for containerHarvester
      */
-    isContainerHarvesterAvailable: function () {
-        return utils.getSourceContainers(con.room).length > 0;
+    isContainerHarvesterAvailable: function (room=con.room) {
+        return utils.getSourceContainers(room).length > 0;
     }
 };
 

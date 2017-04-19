@@ -4,42 +4,32 @@ let utils = {
 
     /**
      * @param {!String} role
+     * @param {Room} room
      * @param {Boolean} budget
     **/
-	createCreep: function(role, budget=false) {
-	    let creepBody = [WORK, CARRY, MOVE];
-	    let room = con.room;
-	    let avres = budget ? room.energyAvailable - 200 : room.energyCapacityAvailable - 200;
-	    if (!budget && room.energyAvailable < room.energyCapacityAvailable) {
-	        return;
-	    }
-	    let carrys = Math.min(avres/250, 4);
-	    let weight = 3;
-	    let max = 18;
-	    if (role === 'upgrader') {
-	        max = 50;
-	    }
-        for (carrys; carrys > 1; carrys--){
-            avres -= 50;
-            weight += 1;
-	        creepBody.push(CARRY);
-        }
-	    while (avres >= 100 && weight < max) {
-	        avres -= 100;
-	        weight += 1;
-	        creepBody.push(WORK);
-	        if (avres >= 50) {
-	            avres -= 50;
-	            weight += 1;
+	createCreep: function(role, room=con.room,  budget=false) {
+        let spawns = _.filter(
+            Game.spawns, sp => sp.room == room && !sp.spawning);
+        if (spawns.length === 0) return false;
+        let spawn = spawns[0];
+        let parts = 5;
+        let creepBody;
+        if (budget) {
+            creepBody = [WORK, CARRY, CARRY, MOVE];
+        } else {
+            creepBody = [];
+            for (let i in _.range(parts)) {
+                creepBody.push(WORK);
+    	        creepBody.push(CARRY);
     	        creepBody.push(MOVE);
-    	    }
-	    }
-        if (avres >= 50) {
-	        creepBody.push(MOVE);
-	    }
+            }
+        }
 
-	    let newName = Game.spawns['Spawn1'].createCreep(creepBody, undefined, {role: role});
-        console.log(`Spawning new ${role}: ${newName}`);
+        if (room != con.room && room.energyCapacityAvailable < parts * 200) {
+            spawn = Game.spawns.Spawn1;
+        }
+        let newName = spawn.createCreep(creepBody, undefined, {role: role, room: room.name});
+        console.log(`Spawning new ${role}: ${newName} for ${room.name} room at ${spawn.name}`);
 	},
 
 	/**
@@ -50,6 +40,13 @@ let utils = {
 	 */
 	getSourceContainers: function (room=con.room, update=false) {
 		let containers;
+		if (! room.memory.counter || room.memory.counter >= 100) {
+		    update = true;
+		    room.memory.counter = 0;
+        } else {
+            room.memory.counter += 1;
+        }
+
 		if (!room.memory.sourceContainerIds || update) {
 			containers = room.find(
 				FIND_STRUCTURES, {

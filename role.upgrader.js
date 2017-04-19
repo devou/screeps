@@ -14,8 +14,8 @@ let roleUpgrader = {
         }
 	},
 
-    create: function() {
-        utils.createCreep('upgrader');
+    create: function(room) {
+        utils.createCreep('upgrader', room);
     }
 };
 
