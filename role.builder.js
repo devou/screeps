@@ -9,7 +9,7 @@ let roleBuilder = {
         if(creep.memory.work) {
             creep.builderWork() || creep.upgraderWork();
         } else {
-            creep.withdrawFromContainers() || creep.harvestClosestSource();
+            creep.withdrawFromContainers();
         }
     },
 
