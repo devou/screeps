@@ -12,12 +12,7 @@ let utils = {
             Game.spawns, sp => sp.room == room && !sp.spawning);
         if (spawns.length === 0) return false;
         let spawn = spawns[0];
-        let isDefaultRoom = false;
-        let parts = 8;
-        if (room == con.room) {
-            parts = 5;
-            isDefaultRoom = true;
-        }
+        let parts = 5;
         let creepBody;
         if (budget) {
             creepBody = [WORK, CARRY, CARRY, MOVE];
@@ -30,12 +25,11 @@ let utils = {
             }
         }
 
-	    let newName = spawn.createCreep(creepBody, undefined, {role: role, room: room.name});
-        if (!isDefaultRoom && newName === ERR_NOT_ENOUGH_ENERGY) {
-            newName = Game.spawns.Spawn1.createCreep(
-                creepBody, undefined, {role: role, room: room.name});
+        if (room != con.room && room.energyCapacityAvailable < parts * 200) {
+            spawn = Game.spawns.Spawn1;
         }
-        console.log(`Spawning new ${role}: ${newName} at ${room.name} room`);
+        let newName = spawn.createCreep(creepBody, undefined, {role: role, room: room.name});
+        console.log(`Spawning new ${role}: ${newName} for ${room.name} room at ${spawn.name}`);
 	},
 
 	/**

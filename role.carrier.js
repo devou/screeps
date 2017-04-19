@@ -34,7 +34,8 @@ let roleCarrier = {
 	    let newName = spawn.createCreep(
 	        creepBody, undefined, {role: 'carrier', room: room.name});
         if (_.isString(newName)) {
-            console.log(`Spawning new ${budget?'budget ':' '}carrier: ${newName}`);
+            console.log(`Spawning new ${budget?'budget ':' '}
+                carrier: ${newName} at ${room.name}`);
         }
 	},
 };
