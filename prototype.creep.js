@@ -1,8 +1,9 @@
-let roleContainerHarvester = require('role.containerHavester');
-let roleHarvester = require('role.harvester');
-let roleUpgrader = require('role.upgrader');
 let roleBuilder = require('role.builder');
 let roleCarrier = require('role.carrier');
+let roleContainerHarvester = require('role.containerHavester');
+let roleHarvester = require('role.harvester');
+let roleRepairer = require('role.repairer');
+let roleUpgrader = require('role.upgrader');
 let utils = require('utils');
 
 
@@ -11,6 +12,7 @@ Creep.prototype.isBuilder = function() {return this.memory.role === 'builder'};
 Creep.prototype.isUpgrader = function() {return this.memory.role === 'upgrader'};
 Creep.prototype.isCarrier = function() {return this.memory.role === 'carrier'};
 Creep.prototype.isContainerHarvester = function() {return this.memory.role === 'containerHarvester'};
+Creep.prototype.isRepairer = function() {return this.memory.role === 'repairer'};
 
 
 Creep.prototype.run = function() {
@@ -27,6 +29,8 @@ Creep.prototype.run = function() {
             roleUpgrader.run(this);
         } else if (this.isCarrier()) {
             roleCarrier.run(this);
+        } else if (this.isRepairer()) {
+            roleRepairer.run(this);
         }
     }
 };
