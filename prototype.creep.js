@@ -41,7 +41,7 @@ Creep.prototype.updateWorkState = function() {
         this.memory.work = false;
         this.say('! withdraw');
     }
-    if (!this.memory.work && this.carry.energy === this.carryCapacity) {
+    if (!this.memory.work && _.sum(this.carry) === this.carryCapacity) {
         this.memory.work = true;
         this.say('@ work');
     }

@@ -10,7 +10,7 @@ module.exports = {
                 tower.attack(closestHostile);
             } else{
                 let dStructures = _.sortByOrder(tower.room.find(FIND_STRUCTURES, {
-                    filter: structure => (structure.hits <= structure.hitsMax - 900) && structure.hits < 60000
+                    filter: structure => (structure.hits <= structure.hitsMax - 900) && structure.hits < 30000
                 }), ['hits']);
                 if (dStructures.length > 0 && tower.energy > 500) {
                     tower.repair(dStructures[0]);
