@@ -2,6 +2,7 @@ let con = require('constants');
 let roleBuilder = require('role.builder');
 let roleContainerHarvester = require('role.containerHavester');
 let roleCarrier = require('role.carrier');
+let roleRepairer = require('role.repairer');
 let roleUpgrader = require('role.upgrader');
 let tower = require('tower');
 let utils = require('utils');
@@ -22,13 +23,18 @@ Room.prototype.handleCreeps = function() {
     let upgradersCount = creepCounts.upgrader || 0;
     let buildersCount = creepCounts.builder || 0;
     let carriersCount = creepCounts.carrier || 0;
+    let repairersCount = creepCounts.repairer || 0;
 
     // creeps creating
-    console.log(`${upgradersCount} upgraders, ${buildersCount} builders at room ${this.name}`)
-    if(upgradersCount < 2) {
+    console.log(`${upgradersCount} upgraders, ${buildersCount} builders at room ${this.name}`);
+    if(upgradersCount < 1) {
         roleUpgrader.create(this);
     }else if(buildersCount < 2) {
+        console.log(`should create builder at ${this.name}`);
         roleBuilder.create(this);
+    }else if(repairersCount < roleRepairer.expectedCount(this)) {
+        console.log(`should create repairer at ${this.name}`);
+        roleRepairer.create(this);
     }
 
     if (roleContainerHarvester.isContainerHarvesterAvailable(this)) {

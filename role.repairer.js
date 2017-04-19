@@ -7,14 +7,20 @@ let roleBuilder = {
         creep.updateWorkState();
 
         if(creep.memory.work) {
-            creep.builderWork() || creep.upgraderWork();
+            creep.repairerWork() || creep.upgraderWork();
         } else {
             creep.withdrawFromContainers();
         }
     },
 
     create: function(room) {
-        utils.createCreep('builder', room);
+        utils.createCreep('repairer', room);
+    },
+
+    expectedCount: function(room) {
+        return room.find(FIND_STRUCTURES, {
+        filter: structure => (structure.hits <= structure.hitsMax - 500)
+        && structure.hitsMax > 300000}).length > 0 ? 1 : 0;
     }
 };
 

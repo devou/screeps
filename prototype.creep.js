@@ -90,7 +90,7 @@ Creep.prototype.withdrawFromContainers = function() {
         FIND_STRUCTURES, {
             filter: structure => {
                 if (scs && scs.indexOf(structure.id) !== -1
-                    && structure.store.energy < 300) {
+                    && structure.store.energy < 500) {
                     return false;
                 }
                 if ((structure.structureType === STRUCTURE_CONTAINER
@@ -123,6 +123,24 @@ Creep.prototype.builderWork = function() {
     if (target) {
         if (this.build(target) === ERR_NOT_IN_RANGE) {
             this.moveTo(target, {visualizePathStyle: {stroke: '#582c15'}});
+        }
+        return true;
+    }
+    return false;
+};
+
+
+Creep.prototype.repairerWork = function() {
+    let dStructures = _.sortByOrder(_.mapValues(
+        this.room.find(FIND_STRUCTURES, {
+            filter: structure => (structure.hits <= structure.hitsMax - 500)
+            && structure.hitsMax > 300000}),
+        struct => {return {hits: (struct.hits/10000>>0), structure: struct}}),
+        ['hits']);
+    if (dStructures) {
+        let target = dStructures[0]['structure'];
+        if (this.repair(target) === ERR_NOT_IN_RANGE) {
+            this.moveTo(target, {visualizePathStyle: {stroke: '#00ffcd'}});
         }
         return true;
     }
